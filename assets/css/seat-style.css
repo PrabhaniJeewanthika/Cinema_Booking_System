@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background: url('../assets/img/booking1.jpg') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    text-align: center;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.message {
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.success { color: #4caf50; }
+.error { color: #f44336; }
+
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+    justify-items: center;
+    margin-bottom: 20px;
+}
+
+.seat {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    font-size: 14px;
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.seat:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.seat.booked {
+    background: rgba(255, 0, 0, 0.6);
+    cursor: not-allowed;
+    border-color: rgba(255, 0, 0, 0.7);
+}
+
+.seat.selected {
+    background: rgba(76, 175, 80, 0.8);
+    border-color: rgba(76, 175, 80, 1);
+}
+
+button.submit-btn {
+    background: linear-gradient(to right, #ff6f61, #ff8a65);
+    color: #fff;
+    padding: 14px 35px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button.submit-btn:hover {
+    background: linear-gradient(to right, #ff7043, #ff5722);
+    transform: scale(1.05);
+}
+
+.seat-grid.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}

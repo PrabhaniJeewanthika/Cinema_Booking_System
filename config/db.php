@@ -7,7 +7,6 @@ class Database {
     public static function getConnection() {
         if (self::$conn === null) {
             self::$conn = new mysqli('localhost', 'root', '', 'cinema_booking');
-
             if (self::$conn->connect_error) {
                 die("Database Connection Failed: " . self::$conn->connect_error);
             }

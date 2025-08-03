@@ -23,11 +23,12 @@ CREATE TABLE movies (
 );
 
 -- Bookings Table
+DROP TABLE IF EXISTS bookings;
 CREATE TABLE bookings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     movie_id INT NOT NULL,
-    seats TEXT NOT NULL, -- Comma-separated seat numbers
+    seats TEXT NOT NULL,
     booking_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (movie_id) REFERENCES movies(id)
@@ -42,3 +43,12 @@ CREATE TABLE payments (
     payment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (booking_id) REFERENCES bookings(id)
 );
+
+-- Dummy Data
+INSERT INTO users (id, name, email, password, role) VALUES
+(1, 'Test User', 'testuser@example.com', 'password', 'user')
+ON DUPLICATE KEY UPDATE name='Test User';
+
+INSERT INTO movies (id, title, description, duration) VALUES
+(1, 'Sample Movie', 'This is a sample movie description.', 120)
+ON DUPLICATE KEY UPDATE title='Sample Movie';
