@@ -1,22 +1,19 @@
-document.querySelectorAll('.seat').forEach(seat => {
-    seat.addEventListener('click', () => {
-        if (!seat.classList.contains('booked')) {
-            seat.classList.toggle('selected');
-        }
+document.addEventListener('DOMContentLoaded', function () {
+    const seats = document.querySelectorAll('.seat:not(.booked)');
+    const selectedSeatsInput = document.getElementById('selectedSeats');
+    let selectedSeats = [];
+
+    seats.forEach(seat => {
+        seat.addEventListener('click', function () {
+            const seatID = this.getAttribute('data-seat');
+            if (this.classList.contains('selected')) {
+                this.classList.remove('selected');
+                selectedSeats = selectedSeats.filter(s => s !== seatID);
+            } else {
+                this.classList.add('selected');
+                selectedSeats.push(seatID);
+            }
+            selectedSeatsInput.value = selectedSeats.join(',');
+        });
     });
-});
-
-document.getElementById('bookingForm').addEventListener('submit', function(e) {
-    const selectedSeats = [];
-    document.querySelectorAll('.seat.selected').forEach(seat => {
-        selectedSeats.push(seat.getAttribute('data-seat'));
-    });
-
-    if (selectedSeats.length === 0) {
-        e.preventDefault();
-        alert('Please select at least one seat.');
-        return;
-    }
-
-    document.getElementById('selected_seats').value = selectedSeats.join(',');
 });

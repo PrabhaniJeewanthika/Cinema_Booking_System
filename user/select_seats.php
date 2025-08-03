@@ -1,128 +1,121 @@
+<?php include('../includes/header.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Select Number of Seats</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
             margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: url('../assets/img/booking2.jpg') no-repeat center center/cover;
+            color: #fff;
         }
-
         .form-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 50px 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             text-align: center;
             width: 90%;
-            max-width: 500px;
-            animation: fadeIn 1s ease;
+            max-width: 400px;
+            margin: 100px auto;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         h1 {
-            margin-bottom: 25px;
-            color: #ff6f61;
             font-size: 2rem;
+            margin-bottom: 30px;
         }
-
-        .seat-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            justify-items: center;
-            margin: 20px 0;
-        }
-
-        .seat-option {
-            width: 60px;
-            height: 60px;
-            background: #f0f0f0;
-            border-radius: 15px;
+        .counter-box {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .counter-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            font-size: 2rem;
+            border-radius: 50%;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
-        .seat-option:hover {
-            transform: translateY(-3px);
-            background: #ffe0e0;
-        }
-
-        .seat-option.selected {
-            background: #ff6f61;
-            color: #fff;
+        .counter-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
             transform: scale(1.1);
         }
-
+        .seat-count {
+            font-size: 3rem;
+            font-weight: bold;
+            width: 60px;
+            text-align: center;
+        }
         .proceed-btn {
-            background: #1e88e5;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
             color: #fff;
-            padding: 12px 30px;
+            padding: 12px 35px;
             border: none;
-            border-radius: 10px;
+            border-radius: 25px;
             font-size: 16px;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
         }
-
         .proceed-btn:hover {
-            background: #1565c0;
-            transform: scale(1.05);
+            transform: translateY(-3px) scale(1.05);
         }
     </style>
 </head>
 <body>
     <div class="form-container">
-        <h1>Select Number of Seats</h1>
+        <h1><i class="fas fa-chair"></i> Select Seats</h1>
         <form method="GET" action="film_details.php" id="seatForm">
-            <input type="hidden" name="seat_count" id="seat_count" value="">
-            <div class="seat-grid">
-                <?php for ($i = 1; $i <= 10; $i++): ?>
-                    <div class="seat-option" data-value="<?= $i ?>"><?= $i ?></div>
-                <?php endfor; ?>
+            <input type="hidden" name="seat_count" id="seat_count" value="1">
+            <div class="counter-box">
+                <button type="button" class="counter-btn" id="decrease"><i class="fas fa-minus"></i></button>
+                <div class="seat-count" id="seatDisplay">1</div>
+                <button type="button" class="counter-btn" id="increase"><i class="fas fa-plus"></i></button>
             </div>
-            <button type="submit" class="proceed-btn">Proceed to Seat Selection</button>
+            <button type="submit" class="proceed-btn"><i class="fas fa-arrow-right"></i> Proceed</button>
         </form>
     </div>
 
     <script>
-        const seatOptions = document.querySelectorAll('.seat-option');
+        const increaseBtn = document.getElementById('increase');
+        const decreaseBtn = document.getElementById('decrease');
+        const seatDisplay = document.getElementById('seatDisplay');
         const seatCountInput = document.getElementById('seat_count');
-        const form = document.getElementById('seatForm');
+        const maxSeats = 10;
+        let seatCount = 1;
 
-        seatOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                seatOptions.forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-                seatCountInput.value = option.getAttribute('data-value');
-            });
-        });
-
-        form.addEventListener('submit', function(e) {
-            if (seatCountInput.value === "") {
-                e.preventDefault();
-                alert("Please select the number of seats.");
+        increaseBtn.addEventListener('click', () => {
+            if (seatCount < maxSeats) {
+                seatCount++;
+                updateDisplay();
             }
         });
+
+        decreaseBtn.addEventListener('click', () => {
+            if (seatCount > 1) {
+                seatCount--;
+                updateDisplay();
+            }
+        });
+
+        function updateDisplay() {
+            seatDisplay.textContent = seatCount;
+            seatCountInput.value = seatCount;
+        }
     </script>
+<?php include('../includes/footer.php'); ?>
 </body>
 </html>
