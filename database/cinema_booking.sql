@@ -16,10 +16,10 @@ CREATE TABLE users (
 CREATE TABLE movies (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    description TEXT,
-    duration INT, -- Duration in minutes
-    poster VARCHAR(255), -- Poster image path
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    genre VARCHAR(100) NOT NULL,
+    duration INT NOT NULL, -- in minutes
+    description TEXT NOT NULL,
+    poster VARCHAR(255) NOT NULL -- just the filename, e.g., 'avatar.jpg'
 );
 
 -- Bookings Table
@@ -52,3 +52,9 @@ ON DUPLICATE KEY UPDATE name='Test User';
 INSERT INTO movies (id, title, description, duration) VALUES
 (1, 'Sample Movie', 'This is a sample movie description.', 120)
 ON DUPLICATE KEY UPDATE title='Sample Movie';
+
+INSERT INTO movies (title, genre, duration, description, poster) VALUES
+('Avatar: The Way of Water', 'Sci-Fi', 192, 'Jake Sully lives with his newfound family formed on the extrasolar moon Pandora.', 'avatar.jpg'),
+('The Batman', 'Action', 176, 'Batman ventures into Gotham City’s underworld when a sadistic killer leaves behind a trail of cryptic clues.', 'batman.jpg'),
+('Frozen II', 'Animation', 103, 'Anna, Elsa, Kristoff, Olaf and Sven leave Arendelle to travel to an ancient forest.', 'frozen2.jpg'),
+('Top Gun: Maverick', 'Action', 131, 'After more than thirty years of service, Maverick is still pushing the envelope.', 'topgun.jpg');

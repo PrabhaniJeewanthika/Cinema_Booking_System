@@ -8,6 +8,7 @@ class Booking {
         $this->conn = Database::getConnection();
     }
 
+    // Get all booked seats for a movie
     public function getBookedSeats($movie_id) {
         $stmt = $this->conn->prepare("SELECT seats FROM bookings WHERE movie_id = ?");
         $stmt->bind_param("i", $movie_id);
@@ -19,9 +20,11 @@ class Booking {
             $seatsArray = explode(',', $row['seats']);
             $bookedSeats = array_merge($bookedSeats, $seatsArray);
         }
+
         return $bookedSeats;
     }
 
+    // Insert a booking into the database
     public function bookSeats($user_id, $movie_id, $seats) {
         $seatsStr = implode(",", $seats);
 
