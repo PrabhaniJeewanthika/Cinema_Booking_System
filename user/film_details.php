@@ -276,12 +276,21 @@ $rowWalkwayAfter = 5;            // Horizontal Aisle after Row E (Row 5)
                         <div class="side-door right-door">🚪</div>
                     </div>
 
-                    <button type="submit" class="submit-btn">Confirm Booking</button>
+                    <button type="submit" class="submit_btn">Confirm Booking</button>
+                    <button type ="button" onclick="goToDetails(1)">User 101</button>
                 </form>
             </div>
         </div>
+        
+        <script>
+  function goToDetails(id) {
+   window.location.href = "hello.php?booking_id=" + id;
+
+  }
+</script>
 
         <script>
+            
             const seats = document.querySelectorAll('.seat');
             const selectedSeatsInput = document.getElementById('selected_seats');
             const form = document.getElementById('bookingForm');
