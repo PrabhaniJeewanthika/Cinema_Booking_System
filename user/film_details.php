@@ -277,14 +277,17 @@ $rowWalkwayAfter = 5;            // Horizontal Aisle after Row E (Row 5)
                     </div>
 
                     <button type="submit" class="submit_btn">Confirm Booking</button>
-                    <button type ="button" onclick="goToDetails(1)">User 101</button>
+                    <button type ="button" onclick="goToDetails(1)">Preview Receipt</button>
+                    <a href="generate_receipt.php?booking_id=<?= 1 ?>" target="_blank" class="btn">
+                        Download Receipt (PDF)
+                    </a>
                 </form>
             </div>
         </div>
         
         <script>
   function goToDetails(id) {
-   window.location.href = "hello.php?booking_id=" + id;
+   window.location.href = "ticket_view.php?booking_id=" + id;
 
   }
 </script>
