@@ -8,7 +8,6 @@
     <nav class="nav-links">
         <a href="/Cinema_Booking_System/index.php">Home</a>
         <a href="/Cinema_Booking_System/user/movie_details.php">Movies</a>
-        <a href="/Cinema_Booking_System/user/select_seats.php">Bookings</a>
         <a href="/Cinema_Booking_System/user/contact.php">Contact</a>
     </nav>
     <div class="profile">
