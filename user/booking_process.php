@@ -2,7 +2,7 @@
 session_start();
 require_once(__DIR__ . '/../controllers/BookingController.php');
 
-$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1;
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1; // Use real user ID in production
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $movie_id = $_POST['movie_id'];
@@ -18,9 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($success) {
         echo "<script>alert('Booking Successful!'); window.location.href='payment_method.php';</script>";
     } else {
-        echo "<script>alert('Booking Failed!'); window.history.back();</script>";
+        echo "<script>alert('Booking Failed! Please try again.'); window.history.back();</script>";
     }
 } else {
     header("Location: select_seats.php");
+    exit;
 }
 ?>

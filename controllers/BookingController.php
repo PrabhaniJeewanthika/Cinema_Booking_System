@@ -8,12 +8,12 @@ class BookingController {
         $this->bookingModel = new Booking();
     }
 
-    // Fetch already booked seats for given movie
+    // Fetch all booked seats for a movie
     public function fetchBookedSeats($movie_id) {
         return $this->bookingModel->getBookedSeats($movie_id);
     }
 
-    // Process Booking Seats
+    // Process booking for selected seats
     public function processBooking($user_id, $movie_id, $selectedSeats) {
         return $this->bookingModel->bookSeats($user_id, $movie_id, $selectedSeats);
     }
