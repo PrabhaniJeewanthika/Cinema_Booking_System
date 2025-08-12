@@ -13,20 +13,6 @@ if (!$payment_id) {
     exit;
 }
 
-// Mock payment data (in real implementation, fetch from database using PaymentController)
-$payment_data = [
-    'id' => $payment_id,
-    'booking_id' => 1,
-    'movie_title' => 'Avengers: Endgame',
-    'showtime' => '2025-08-15 19:30:00',
-    'seats' => ['A1', 'A2', 'A3'],
-    'theater' => 'Theater 1',
-    'amount' => 45.00,
-    'payment_method' => 'online',
-    'payment_status' => 'paid',
-    'payment_date' => date('Y-m-d H:i:s'),
-    'transaction_id' => $transaction_id
-];
 ?>
 
 <!DOCTYPE html>
