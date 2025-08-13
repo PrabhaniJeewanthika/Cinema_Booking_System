@@ -137,35 +137,33 @@
 
     $days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-    // Fetch all movies
-    $sql = "SELECT * FROM movies";
-    $result = mysqli_query($conn, $sql);
-    $movies = [];
-    if ($result && mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $movies[] = $row;
-        }
-    }
+    // Fetch all movies using PDO
+    $stmt = $pdo->query("SELECT * FROM movies");
+    $movies = $stmt->fetchAll();
 
-    // Display movies for each day
-    foreach ($days as $day) {
-        echo "<div class='day-section'>";
-        echo "<h2>$day</h2>";
-        echo "<div class='movie-list'>";
-        foreach ($movies as $movie) {
-            echo "
-            <div class='movie-card'>
-                <img src='../assets/img/" . htmlspecialchars($movie['poster']) . "' alt='" . htmlspecialchars($movie['title']) . "'>
-                <h3>" . htmlspecialchars($movie['title']) . "</h3>
-                <p>Genre: " . htmlspecialchars($movie['genre']) . "</p>
-                <p>Language: " . htmlspecialchars($movie['language']) . "</p>
-                <p>Duration: " . htmlspecialchars($movie['duration']) . " minutes</p>
-                <p>Show Time: " . htmlspecialchars($movie['show_time']) . "</p>
-                <a href='film_details.php?id=" . $movie['id'] . "'>View Details</a>
-            </div>
-            ";
+    if (count($movies) === 0) {
+        echo "<div style='text-align:center; margin-top:40px; color:#e50914; font-size:1.5em;'>No movies found in the database.</div>";
+    } else {
+        // Display movies for each day
+        foreach ($days as $day) {
+            echo "<div class='day-section'>";
+            echo "<h2>$day</h2>";
+            echo "<div class='movie-list'>";
+            foreach ($movies as $movie) {
+                echo "
+                <div class='movie-card'>
+                    <img src='../assets/img/" . htmlspecialchars($movie['poster']) . "' alt='" . htmlspecialchars($movie['title']) . "'>
+                    <h3>" . htmlspecialchars($movie['title']) . "</h3>
+                    <p>Genre: " . htmlspecialchars($movie['genre']) . "</p>
+                    <p>Language: " . htmlspecialchars($movie['language']) . "</p>
+                    <p>Duration: " . htmlspecialchars($movie['duration']) . " minutes</p>
+                    <p>Show Time: " . htmlspecialchars($movie['show_time']) . "</p>
+                    <a href='Movie_details.php?id=" . $movie['id'] . "'>View Details</a>
+                </div>
+                ";
+            }
+            echo "</div></div>";
         }
-        echo "</div></div>";
     }
     ?>
 
