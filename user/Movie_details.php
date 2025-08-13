@@ -112,37 +112,47 @@
 include_once '../config/db.php';
 
 $movie = null;
+$error = '';
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $stmt = $pdo->prepare("SELECT * FROM movies WHERE id = ?");
-    $stmt->execute([$id]);
-    $movie = $stmt->fetch();
+    if ($id > 0) {
+        $stmt = $pdo->prepare("SELECT * FROM movies WHERE id = ?");
+        $stmt->execute([$id]);
+        $movie = $stmt->fetch();
+        if (!$movie) {
+            $error = 'Movie not found.';
+        }
+    } else {
+        $error = 'Invalid movie ID.';
+    }
+} else {
+    $error = 'No movie ID specified.';
 }
 ?>
 <div class="container">
     <?php if ($movie): ?>
-    <div class="movie-header">
-        <img src="../assets/img/<?php echo htmlspecialchars($movie['poster']); ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>">
-        <div class="movie-info">
-            <h1><?php echo htmlspecialchars($movie['title']); ?></h1>
-            <p><strong>Genre:</strong> <?php echo htmlspecialchars($movie['genre']); ?></p>
-            <p><strong>Language:</strong> <?php echo htmlspecialchars($movie['language']); ?></p>
-            <p><strong>Duration:</strong> <?php echo htmlspecialchars($movie['duration']); ?> minutes</p>
-            <p><strong>Release Date:</strong> <?php echo htmlspecialchars($movie['release_date']); ?></p>
-            <p><strong>Show Time:</strong> <?php echo htmlspecialchars($movie['show_time']); ?></p>
+        <div class="movie-header">
+            <img src="../assets/img/<?php echo htmlspecialchars($movie['poster']); ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>">
+            <div class="movie-info">
+                <h1><?php echo htmlspecialchars($movie['title']); ?></h1>
+                <p><strong>Genre:</strong> <?php echo htmlspecialchars($movie['genre']); ?></p>
+                <p><strong>Language:</strong> <?php echo htmlspecialchars($movie['language']); ?></p>
+                <p><strong>Duration:</strong> <?php echo htmlspecialchars($movie['duration']); ?> minutes</p>
+                <p><strong>Release Date:</strong> <?php echo htmlspecialchars($movie['release_date']); ?></p>
+                <p><strong>Show Time:</strong> <?php echo htmlspecialchars($movie['show_time']); ?></p>
+            </div>
         </div>
-    </div>
-    <div class="description">
-        <?php echo htmlspecialchars($movie['description']); ?>
-    </div>
-    <a href="booking_process.php?movie_id=<?php echo $movie['id']; ?>" class="back-link" style="background:linear-gradient(90deg,#28a745 60%,#218838 100%);margin-right:16px;">Book Now</a>
+        <div class="description">
+            <?php echo htmlspecialchars($movie['description']); ?>
+        </div>
+        <a href="booking_process.php?movie_id=<?php echo $movie['id']; ?>" class="back-link" style="background:linear-gradient(90deg,#28a745 60%,#218838 100%);margin-right:16px;">Book Now</a>
     <?php else: ?>
-    <div class="movie-header">
-        <div class="movie-info">
-            <h1>Movie Not Found</h1>
-            <p>The movie you are looking for does not exist.</p>
+        <div class="movie-header">
+            <div class="movie-info">
+                <h1>Error</h1>
+                <p><?php echo htmlspecialchars($error); ?></p>
+            </div>
         </div>
-    </div>
     <?php endif; ?>
     <a href="Now_showing.php" class="back-link" style="background:linear-gradient(90deg,#e50914 60%,#b0060f 100%);">&larr; Back to Now Showing</a>
 </div>
